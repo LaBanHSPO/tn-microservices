@@ -11,4 +11,4 @@ ADD . .
 
 EXPOSE 5000
 
-CMD [ "python", "main.py" ]
+CMD [ "pipenv", "run", "start" ]
