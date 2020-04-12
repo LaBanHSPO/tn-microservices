@@ -1,5 +1,5 @@
 export default {
     LOGIN: '/auth/login',
-    ORDER: '/order',
+    ORDERS: '/orders',
     INVENTORY: '/inventory'
 }

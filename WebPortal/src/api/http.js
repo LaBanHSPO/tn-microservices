@@ -1,7 +1,6 @@
 import axios from 'axios';
-import { appConfig } from 'config';
+import { appConfig } from '../config/common';
 import { get } from 'lodash';
-import ServicesNames from 'app-constants/service.names';
 
 class Http {
   client;
@@ -27,36 +26,6 @@ class Http {
     );
   };
 
-  configureResponse = ({ doDisplayErrors, doLogout }) => {
-    this.client.interceptors.response.use(
-      async (response) => {
-        return response;
-      },
-      (error) => {
-        const errorResponse = get(error, 'response.data', error.errorResponse);
-        const code =
-          errorResponse.code ||
-          errorResponse.statusCode ||
-          errorResponse.status;
-        const message = errorResponse.error || error.message;
-        const url = get(error, 'config.url', error.url);
-        if (
-          [401].includes(code) &&
-          ![ServicesNames.AUTH_LOGIN, ServicesNames.AUTH_LOGIN_LOG].includes(
-            url
-          )
-        ) {
-          doLogout();
-        } else {
-          doDisplayErrors({
-            code,
-            message: message
-          });
-        }
-        return Promise.reject(error);
-      }
-    );
-  };
 }
 
 export default new Http();

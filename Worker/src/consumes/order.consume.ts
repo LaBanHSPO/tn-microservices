@@ -37,12 +37,17 @@ export class OrderConsume {
      * Xử lý các đơn hàng mới đến
     */
    channel.consume(QueueName.ORDERS, async (msg) => {
-    const content = JSON.parse(msg.content.toString());
-    console.log('Received message: %o', content);
-    this.cacheManager.get('k1', (err, value) => {
-      if (err) throw err;
-      console.log('k1', value)
-    });
+     try {
+      const content = JSON.parse(msg.content.toString());
+      console.log('Received message: %o', content);
+      const client = this.cacheManager.store.getClient();
+      client.hget('quantity_on_hand', 'SP1', (err, value) => {
+        if (err) throw err;
+        console.log('k1', value, typeof value)
+      });
+     } catch (err) {
+       console.error(err);
+     }
    })
   }
 }

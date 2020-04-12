@@ -25,6 +25,7 @@ alchemy-mock = "==0.4.3"
 marshmallow = "==3.4.0"
 pymysql = "==0.9.3"
 requests = "==2.22.0"
+redis = "*"
 
 [requires]
 python_version = "3.6"

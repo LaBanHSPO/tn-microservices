@@ -6,6 +6,6 @@ async function bootstrap() {
   const app = await NestFactory.createMicroservice(AppModule, {
     transport: Transport.TCP,
   });
-  app.listen(() => console.log('Microservice is listening'));
+  app.listen(() => console.log('Worker daemon is listening'));
 }
 bootstrap();

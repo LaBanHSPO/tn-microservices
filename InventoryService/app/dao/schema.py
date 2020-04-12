@@ -19,6 +19,12 @@ class Inbound(Base):
     receive_by = Column(String(50), info="Người nhận hàng")
     created_at = Column(Date(), nullable=False)
     updated_at = Column(Date())
+    # simple: 1 inbound 1 sku
+    product_id = Column(Integer, nullable=False)
+    product_sku = Column(String(255), nullable=False)
+    product_name = Column(String(255), nullable=False)
+    product_barcode = Column(String(20))
+    uom = Column(Enum('PCS'), default='PCS')
 
 
 class InboundDetail(Base):
@@ -66,6 +72,12 @@ class Order(Base):
     order_notes = Column(String(255))
     created_at = Column(Date(), nullable=False)
     updated_at = Column(Date())
+    # simple: 1 order 1 sku
+    product_id = Column(Integer, nullable=False)
+    product_sku = Column(String(255), nullable=False)
+    product_name = Column(String(255), nullable=False)
+    product_barcode = Column(String(20))
+    uom = Column(Enum('PCS'), default='PCS')
 
 
 class OrderDetail(Base):

@@ -11,13 +11,13 @@ export class CollectionService {
   get = (id, params) =>
     this.client.get(`${this.serviceName}/${id}`, params);
   create = (payload) =>
-    this.client.post(this.serviceName, payload, params);
+    this.client.post(this.serviceName, payload);
   delete = (id, params) =>
     this.client.delete(`${this.serviceName}/${id}`, params);
   update = (id, data, params) =>
     this.client.put(`${this.serviceName}/${id}`, data, params);
   patch = (id, params) =>
-    this.client.patch(`${this.serviceName}/${id}`, data, params);
+    this.client.patch(`${this.serviceName}/${id}`);
   fakeApi = (
     serviceInfo,
     response = {},

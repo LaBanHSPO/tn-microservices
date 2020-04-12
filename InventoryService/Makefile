@@ -5,7 +5,8 @@ cleanfiles:
 
 install:
 	pipenv install --dev
-
+dev:
+	python  /Users/bannv/Documents/tn-microservices/InventoryService/main.py
 shell:
 	pipenv shell
 
