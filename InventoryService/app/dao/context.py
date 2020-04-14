@@ -4,7 +4,7 @@ from sqlalchemy import create_engine
 from app.utils.config import get_config
 
 
-engine = create_engine(get_config('DATABASE_URL'), echo=True)
+engine = create_engine(get_config('SQLALCHEMY_DATABASE_URI'), echo=True)
 Session = sessionmaker(bind=engine)
 
 

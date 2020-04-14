@@ -8,7 +8,7 @@ const convertCallbackToPromiseJS = (redisClient, productId) => new Promise((reso
     if (err) return reject(err);
     resolve(value);
   });
-})
+});
 
 const convertHsetToPromise = (redisClient, hkey, key, value) => new Promise((resolve, reject) => {
   redisClient.hset(hkey, key, value, (err) => {
@@ -32,6 +32,9 @@ export class OrdersService {
       // kiem tra san pham don hang voi so luong ton kho hien tai (co the xuat)
       // call redis check ton kho co the xuat
       const currentValueInRedis = await convertCallbackToPromiseJS(redisClient, order.PRODUCT_ID);
+      redisClient.incrby('user:100:counter', 0, (err, v) => {
+        console.log('---->', err, v, typeof v, typeof 5);
+      })
       if (!currentValueInRedis || Number(currentValueInRedis) - order.QUANTITY < 0) {
         orders.push({
           ORDER_ID: order.ORDER_ID,
@@ -42,6 +45,7 @@ export class OrdersService {
           ORDER_ID: order.ORDER_ID,
           STATUS: 'READY' // sang hang trong kho
         });
+        // using: INCRBY, DECR and DECRBY.
         await convertHsetToPromise(redisClient, 'quantity_on_hand', order.PRODUCT_ID, Number(currentValueInRedis) - order.QUANTITY);
       }
     }

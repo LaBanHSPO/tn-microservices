@@ -8,7 +8,7 @@ from .serializers import InboundSchema
 
 
 RESOURCE = 'inbounds'
-PATH = f'/api/v1/{RESOURCE}'
+PATH = f'/api/v1/{RESOURCE}/'
 
 schema = InboundSchema()
 api = Blueprint(RESOURCE, __name__, url_prefix=PATH)

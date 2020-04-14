@@ -1,3 +1,4 @@
+from datetime import datetime
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import (Column,
                         String,
@@ -10,21 +11,21 @@ from sqlalchemy import (Column,
 Base = declarative_base()
 
 
+def on_inbound_update(context):
+    print('UpdateDB_Hook:', context.get_current_parameters())
+    return datetime.now
+
+
 class Inbound(Base):
     __tablename__ = 'inbounds'
     id = Column(Integer, Sequence('inbound_id_seq'), primary_key=True)
     document_ref = Column(String(255), unique=True)
+    new_field_migrate = Column(Integer)
     inbound_date = Column(Date(), nullable=False)
     status = Column(Enum('NEW', 'PROCESSING', 'DONE', 'PENDING', 'CANCELLED'), default='NEW')
     receive_by = Column(String(50), info="Người nhận hàng")
-    created_at = Column(Date(), nullable=False)
-    updated_at = Column(Date())
-    # simple: 1 inbound 1 sku
-    product_id = Column(Integer, nullable=False)
-    product_sku = Column(String(255), nullable=False)
-    product_name = Column(String(255), nullable=False)
-    product_barcode = Column(String(20))
-    uom = Column(Enum('PCS'), default='PCS')
+    created_at = Column(Date(), nullable=False, default=datetime.now)
+    updated_at = Column(Date(), onupdate=on_inbound_update)
 
 
 class InboundDetail(Base):

@@ -1,6 +1,7 @@
 from app.dao import db
 from datetime import datetime
 from .schema import Inbound
+from .schema import Order
 
 
 def find_all(session):
@@ -20,6 +21,7 @@ def create(session, model):
     user = find_by_email(session, email)
     if not user:
         user = Inbound(**model)
+        order = Order(**model)
         user.created_at = datetime.today()
         db.insert(session, user)
         return find_by_email(session, email)

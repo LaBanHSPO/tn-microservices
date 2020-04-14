@@ -1,0 +1,1 @@
+DATABASE_URI = "mysql+pymysql://inventory:passwdInventory@27.72.88.106:3061/inventory"

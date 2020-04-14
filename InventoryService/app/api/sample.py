@@ -5,10 +5,11 @@ from app.utils.logger import get_logger
 from .constants import GET, POST, PUT, DELETE, COUNTER
 from .error_handler import process_error
 from .serializers import SampleSchema
+from app.redis import RedisClient
 
 
 RESOURCE = 'sample'
-PATH = f'/api/v1/{RESOURCE}'
+PATH = f'/api/v1/{RESOURCE}/'
 
 schema = SampleSchema()
 api = Blueprint(RESOURCE, __name__, url_prefix=PATH)
@@ -42,13 +43,18 @@ def find_all():
     """
     log.debug(f'GET {PATH}')
     COUNTER.labels(GET, PATH).inc()
+    client = RedisClient()
+    A = client.conn.incr('A', 1)
+    print(type(A), A+1)
     with create_context() as context:
         session = context['session']
         results = db.find_all(session)
         if results:
             results = jsonify([schema.dump(u) for u in results])
             return results, 200
-        return jsonify([]), 200
+        return jsonify({
+            A: 'OK'
+        }), 200
 
 
 @api.route('/', methods=[POST])

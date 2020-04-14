@@ -4,7 +4,7 @@ from .constants import GET, COUNTER
 
 
 RESOURCE = 'metrics'
-PATH = f'/api/v1/{RESOURCE}'
+PATH = f'/api/v1/{RESOURCE}/'
 api = Blueprint(RESOURCE, __name__, url_prefix=PATH)
 
 

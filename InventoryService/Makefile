@@ -6,7 +6,8 @@ cleanfiles:
 install:
 	pipenv install --dev
 dev:
-	python  /Users/bannv/Documents/tn-microservices/InventoryService/main.py
+	python  /Users/bannv/Documents/tn-microservices/InventoryService/main.py runserver
+
 shell:
 	pipenv shell
 
@@ -23,10 +24,12 @@ test/integration:
 	python -m pytest ./tests/integration/ -vv
 
 run:
-	python main.py
+	python ${CURDIR}/main.py runserver
 
-run/migration:
-	python app/migration.py
+mg-init:
+	python ${CURDIR}/main.py db init
+mg:
+	python ${CURDIR}/main.py db migrate
 
 run/docker:
 	docker build -t rbarbioni/py-api:latest . \
