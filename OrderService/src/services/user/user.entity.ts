@@ -21,7 +21,4 @@ export class UserEntity {
 
   @Column({ nullable:false })
   avatar: string;
-
-  @Column({ default: true })
-  isActive: boolean;
 }

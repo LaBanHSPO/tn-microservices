@@ -4,13 +4,14 @@ from app.dao.context import create_context
 from app.utils.logger import get_logger
 from .constants import GET, POST, PUT, DELETE, COUNTER
 from .error_handler import process_error
-from .serializers import InboundSchema
+from .serializers import InboundSchema, InboundSchemaResponse
 
 
 RESOURCE = 'inbounds'
 PATH = f'/api/v1/{RESOURCE}/'
 
 schema = InboundSchema()
+responseSchema = InboundSchemaResponse()
 api = Blueprint(RESOURCE, __name__, url_prefix=PATH)
 log = get_logger(__name__)
 
@@ -22,15 +23,15 @@ def error_handler(error):
 
 @api.route('/', methods=[GET])
 def find_all():
-    """return list of samples
+    """return list of inbounds
     ---
     tags:
-      - Sample
+      - Inbound
     responses:
       200:
-        description: A list samples
+        description: A list inbounds
         schema:
-          id: InboundResponse
+          id: inboundResponse
           properties:
             id:
               type: integer
@@ -48,34 +49,70 @@ def find_all():
         if results:
             results = jsonify([schema.dump(u) for u in results])
             return results, 200
-        return jsonify([]), 200
+        return jsonify({
+             'OK': 1
+        }), 200
 
 
 @api.route('/', methods=[POST])
 def create():
-    """create new Sample
+    """create new Inbound
     ---
     tags:
-      - Sample
+      - Inbound
     parameters:
       - name: body
         in: body
         required: true
         schema:
-          id: SampleRequest
+          id: inboundRequest
           required:
-            - name
-            - email
+            - document_ref
+            - items
           properties:
-            name:
+            document_ref:
               type: string
-            email:
-              type: string
+              example: "PO_16_04_2020_1"
+            items:
+               type: array
+               items:
+                 schema:
+                    id: InboundItem
+                    required:
+                        - product_id
+                        - product_sku
+                        - quantity
+                    properties:
+                        product_id:
+                            type: number
+                            example: 1
+                        product_sku:
+                            type: string
+                            description: "Mã SKU"
+                            example: "SP1"
+                        product_name:
+                            type: string
+                            description: "Tên sản phẩm"
+                            example: ""
+                        product_barcode:
+                            type: string
+                            description: "Mã vạch"
+                            example: ""
+                        quantity:
+                            type: number
+                            example: 1
+                        uom:
+                            type: string
+                            enum: [PCS]
+                            description: >-
+                                Đơn vị tính. PCS (cái/chiếc)
+                            default: "PCS"
+                            example: "PCS"
     responses:
       201:
-        description: Created new Sample
+        description: Created new inbound
         schema:
-          $ref: '#/definitions/InboundResponse'
+          $ref: '#/definitions/inboundResponse'
       400:
         description: Invalid any property
         schema:
@@ -88,20 +125,40 @@ def create():
     COUNTER.labels(POST, PATH).inc()
     body = request.get_json()
     schema.load(body)
+    """ validation rule
+        1. [EMPTY_ITEMS] item list is not empty
+        2. [DUPLICATED_ITEM] item list is has duplicated item {item}
+        3. [DUPLICATED] existed document_ref inbound in db 
+    """
+    items = body['items']
+    # 1
+    if len(items) == 0:
+        return {
+            'error_code': 'EMPTY_ITEMS',
+            'msg': 'item list is not empty'
+        }, 400
+    # 2
+    product_items = [i['product_id'] for i in items]
+    diff_items = [x for x in set(product_items) if product_items.count(x) > 1]
+    if len(diff_items):
+        return {
+            'error_code': 'DUPLICATED_ITEM',
+            'msg': diff_items
+        }, 400
     with create_context() as context:
         session = context['session']
         inbound = db.create(session, body)
-        print(inbound)
-        result = schema.dump(inbound)
+        print("inboud ----->", inbound)
+        result = responseSchema.dump(inbound)
         return result, 200
 
 
 @api.route('/<int:id>', methods=[GET])
 def find_by_id(id):
-    """Return a Sample by id
+    """Return a inbound by id
     ---
     tags:
-      - Sample
+      - Inbound
     parameters:
       - name: id
         in: path
@@ -109,15 +166,15 @@ def find_by_id(id):
         required: true
     responses:
       200:
-        description: One Sample by id
+        description: One inbound by id
         schema:
-          $ref: '#/definitions/InboundResponse'
+          $ref: '#/definitions/inboundResponse'
       400:
-        description: Invalid any Sample property
+        description: Invalid any inbound property
         schema:
           $ref: '#/definitions/ErrorResponse'
       404:
-        description: Sample not found
+        description: inbound not found
         schema:
           $ref: '#/definitions/ErrorResponse'
     """
@@ -133,10 +190,10 @@ def find_by_id(id):
 
 @api.route('/<int:id>', methods=[PUT])
 def update(id):
-    """Update a existing Sample
+    """Update a existing inbound
     ---
     tags:
-      - Sample
+      - Inbound
     parameters:
       - name: id
         in: path
@@ -146,18 +203,18 @@ def update(id):
         in: body
         required: true
         schema:
-          $ref: '#/definitions/SampleRequest'
+          $ref: '#/definitions/inboundRequest'
     responses:
       201:
-        description: Created new Sample
+        description: Created new inbound
         schema:
-          $ref: '#/definitions/InboundResponse'
+          $ref: '#/definitions/inboundResponse'
       400:
-        description: Invalid any Sample property
+        description: Invalid any inbound property
         schema:
           $ref: '#/definitions/ErrorResponse'
       404:
-        description: Sample not found
+        description: inbound not found
         schema:
           $ref: '#/definitions/ErrorResponse'
     """
@@ -175,10 +232,10 @@ def update(id):
 
 @api.route('/<int:id>', methods=[DELETE])
 def delete(id):
-    """Remove on existing Sample
+    """Remove on existing inbound
     ---
     tags:
-      - Sample
+      - Inbound
     parameters:
       - name: id
         in: path
@@ -186,9 +243,9 @@ def delete(id):
         required: true
     responses:
       204:
-        description: Sample deleted
+        description: inbound deleted
       404:
-        description: Sample not found
+        description: inbound not found
         schema:
           $ref: '#/definitions/ErrorResponse'
     """

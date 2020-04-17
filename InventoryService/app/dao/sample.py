@@ -21,7 +21,7 @@ def create(session, model):
     if not user:
         user = Sample(**model)
         user.created_at = datetime.today()
-        db.insert(session, user)
+        db.insert(session, {})
         return find_by_email(session, email)
     raise Exception(400, {'msg': f'sample email:{email} already exists'})
 

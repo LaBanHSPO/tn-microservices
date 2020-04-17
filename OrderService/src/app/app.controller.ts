@@ -9,7 +9,7 @@ export class AppController {
 
   @Get('/')
   getHome(): string {
-    return '🚀 Server ready. [/api-docs | /graphql]'
+    return '🚀 Server ready. [/apidocs | /graphql]'
   }
 
 }

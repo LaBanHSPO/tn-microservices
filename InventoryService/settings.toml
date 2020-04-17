@@ -5,14 +5,14 @@ DEBUG=true
 LOG_LEVEL="DEBUG"
 GUNICORN_THREADS=1
 GUNICORN_WORKERS=1
-SQLALCHEMY_DATABASE_URI="mysql+pymysql://inventory:passwdInventory@27.72.88.106:3061/inventory"
+#SQLALCHEMY_DATABASE_URI="mysql+pymysql://inventory:passwdInventory@27.72.88.106:3061/inventory"
+SQLALCHEMY_DATABASE_URI="mysql+pymysql://inventory:123OK123@27.72.88.106:3087/inventory"
 SQLALCHEMY_TRACK_MODIFICATIONS=true
 SWAGGER_URL="/apidocs"
 SWAGGER_FILE="swagger.json"
-REDIS_URL="redis://:6EbuHgXDJrAs5q9M@redis.tn20.wedesign.vn:9009/0"
-REDIS_HOST="redis.tn20.wedesign.vn"
-REDIS_PORT=9009
-REDIS_PASSWORD="6EbuHgXDJrAs5q9M"
+REDIS_HOST="27.72.88.106"
+REDIS_PORT=3079
+#REDIS_PASSWORD="6EbuHgXDJrAs5q9M"
 
 [docker]
 SQLALCHEMY_DATABASE_URI="mysql+pymysql://api:api@db:3307/api"

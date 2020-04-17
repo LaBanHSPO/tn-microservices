@@ -10,7 +10,7 @@ import { ConfigService } from '@nestjs/config';
 import { ValidationPipe } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app/app.module';
-import {AppInterceptor} from "./app/app.interceptor";
+import {AppInterceptor} from './app/app.interceptor';
 // import { AllExceptionsFilter } from './app/all-exceptions.filter';
 
 (async function bootstrap() {
@@ -27,11 +27,12 @@ import {AppInterceptor} from "./app/app.interceptor";
   const HOST_NAME = configService.get<string>('HOST_NAME');
   const SERVER_PORT = configService.get<number>('SERVER_PORT');
   // swagger automate api docs
+
   const API_DOCS_URI = configService.get<string>('API_DOCS_URI');
-  const API_DOCS_TITLE = configService.get<string>('API_DOCS_TITLE');
-  const API_DOCS_DESCRIPTION = configService.get<string>('API_DOCS_DESCRIPTION');
-  const API_DOCS_VERSION = configService.get<string>('API_DOCS_VERSION');
-  const API_DOCS_TAG = configService.get<string>('API_DOCS_TAG');
+  const API_DOCS_TITLE='API Document'
+  const API_DOCS_DESCRIPTION='Buit on Lean Stacks System'
+  const API_DOCS_VERSION='1.0'
+  const API_DOCS_TAG='lean-stacks'
 
   const options = new DocumentBuilder()
   .setTitle(API_DOCS_TITLE)

@@ -6,8 +6,7 @@ cleanfiles:
 install:
 	pipenv install --dev
 dev:
-	python  /Users/bannv/Documents/tn-microservices/InventoryService/main.py runserver
-
+	python  /Users/bannv/Documents/tn-microservices/InventoryService/main.py
 shell:
 	pipenv shell
 
@@ -24,7 +23,7 @@ test/integration:
 	python -m pytest ./tests/integration/ -vv
 
 run:
-	python ${CURDIR}/main.py runserver
+	python ${CURDIR}/main.py
 
 mg-init:
 	python ${CURDIR}/main.py db init

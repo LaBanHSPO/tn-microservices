@@ -7,6 +7,7 @@ export default registerAs('queueConfig', () => {
   const rabitmqUser = process.env.RABITMQ_USER;
   const rabitmqPass = process.env.RABITMQ_PASS;
   return ({
-    rabbitmq: `amqp://${rabitmqUser}:${rabitmqPass}@${rabitmqHost}:${rabitmqPort}`,
-  })
+    brokerUrl: `amqp://${rabitmqUser}:${rabitmqPass}@${rabitmqHost}:${rabitmqPort}`,
+    result_backend: `amqp://${rabitmqUser}:${rabitmqPass}@${rabitmqHost}:${rabitmqPort}`,
+  });
 });

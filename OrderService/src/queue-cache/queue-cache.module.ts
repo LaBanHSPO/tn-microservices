@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { RabbitMQ } from './rabbitmq.queue';
+import { Celery } from './celery.client';
 import {ConfigModule} from '@nestjs/config';
 
 @Module({
@@ -9,10 +9,10 @@ import {ConfigModule} from '@nestjs/config';
   controllers: [
   ],
   providers: [
-    RabbitMQ
+    Celery
   ],
   exports: [
-    RabbitMQ
+    Celery
   ]
 })
 export class QueueCacheModules {}
