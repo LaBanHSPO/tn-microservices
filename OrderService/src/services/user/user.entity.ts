@@ -21,4 +21,5 @@ export class UserEntity {
 
   @Column({ nullable:false })
   avatar: string;
+
 }

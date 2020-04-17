@@ -18,7 +18,4 @@ export class CreateUserPayload {
 
   @ApiProperty()
   avatar: string;
-
-  @ApiProperty()
-  isActive: boolean
 }
