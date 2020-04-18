@@ -12,6 +12,12 @@ flower = "==0.9.3"
 celery = "==4.3.0"
 flask-mail = "==0.9.1"
 redis = "==3.4.1"
+dynaconf = "*"
 
 [requires]
 python_version = "3.6"
+
+[scripts]
+start = "celery worker -A tasks --loglevel=info"
+admin = "flower -A tasks --port=5555"
+dev = "python app.py"
