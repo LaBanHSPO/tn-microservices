@@ -15,3 +15,8 @@ redis = "==3.4.1"
 
 [requires]
 python_version = "3.6"
+
+[scripts]
+start = "celery worker -A tasks --loglevel=info"
+admin = "flower -A tasks --port=5555"
+dev = "python app.py"

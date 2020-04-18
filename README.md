@@ -1,6 +1,4 @@
-# Overview
-## Simple Order Fulfillment System with 3rd Party integrated
-
-IMG_IS_DRAWING
-
-## Notes
+## Simple Order Fulfilment System
+### Sample, Best practices, Microservices
+Website: 
+[https://labanhspo.github.io](https://labanhspo.github.io)
