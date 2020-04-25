@@ -1,0 +1,36 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+pytest = "==5.3.5"
+pytest-mock = "==2.0.0"
+pytest-cov = "==2.8.1"
+autopep8 = "==1.4"
+flake8 = "==3.7.8"
+pylint = "*"
+
+[packages]
+flask = "==1.1.1"
+dynaconf = "==2.2.2"
+sentry-sdk = "==0.13.5"
+sqlalchemy = "==1.3.13"
+alchemy-mock = "==0.4.3"
+pymysql = "==0.9.3"
+requests = "==2.22.0"
+redis = "==3.4.1"
+alembic = '==1.4.0'
+flower = "==0.9.3"
+celery = "==4.3.0"
+flask-mail = "==0.9.1"
+kombu = "==4.5.0"
+
+[requires]
+python_version = "3.6"
+
+[scripts]
+start = "celery worker -A tasks --loglevel=info"
+admin = "flower -A tasks --port=5555"
+lint = "flake8 . --max-line-length 100 --exclude .venv/"
+integration-test = "python -m pytest ./tests/integration/ -vv"
