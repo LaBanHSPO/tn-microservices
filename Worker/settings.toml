@@ -1,5 +1,5 @@
 [default]
-APPLICATION_NAME="py-api"
+APPLICATION_NAME="py-worker"
 APPLICATION_VERSION="1.0.0"
 DEBUG=true
 LOG_LEVEL="DEBUG"
@@ -12,3 +12,7 @@ SWAGGER_FILE="swagger.json"
 REDIS_HOST="redis.s2.wedesign.vn"
 REDIS_PORT=5006
 REDIS_PASSWORD="redis_pass"
+
+SECRET_KEY = 'some_key_abc'
+CELERY_BROKER_URL = 'pyamqp://:rabbitmq:rabbitmq@rabbitmq.s2.wedesign.vn:5002/'
+CELERY_RESULT_BACKEND = ''

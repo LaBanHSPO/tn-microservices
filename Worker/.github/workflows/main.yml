@@ -1,0 +1,20 @@
+name: CI
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-python@v1
+    - uses: dschep/install-pipenv-action@v1
+    - run: pipenv install --dev
+      name: Pipenv dependencies install
+    - run: pipenv run lint
+      name: Checking flake8 issues
+    - run: pipenv run test
+      name: Running unit tests
+
