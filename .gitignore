@@ -5,6 +5,7 @@
 
 # testing
 /coverage
+/java-spring-boot
 
 # production
 /build
