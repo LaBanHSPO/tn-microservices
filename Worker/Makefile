@@ -6,9 +6,6 @@ cleanfiles:
 install:
 	pipenv install --dev
 
-dev:
-	python  /Users/bannv/Documents/tn-microservices/InventoryService/main.py
-
 shell:
 	pipenv shell
 
@@ -20,8 +17,3 @@ lint/fix:
 
 test:
 	python -m pytest --cov=app ./tests/unit/ -vv --cov-report term-missing
-
-test/integration:
-	python -m pytest ./tests/integration/ -vv
-
-
