@@ -18,7 +18,7 @@
     "env-cmd": "^10.1.0",
     "lodash": "^4.17.15",
     "antd": "^3.19.3",
-    "moment": "^2.24.0",
+    "moment": "^2.29.2",
     "subscriptions-transport-ws": "^0.9.16",
     "axios": "^0.19.2"
   },
